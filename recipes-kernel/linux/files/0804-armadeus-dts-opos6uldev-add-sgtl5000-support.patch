@@ -1,0 +1,122 @@
+From 552efa368b44a5575bc80ab7d85f2a714dae0a56 Mon Sep 17 00:00:00 2001
+From: OpenEmbedded <oe.patch@oe>
+Date: Fri, 17 Aug 2018 14:57:56 +0000
+ 0804-armadeus-dts-opos6uldev-add-sgtl5000-support.patch
+
+---
+ arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi | 67 ++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+index d528501..15cee47 100644
+--- a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
++++ b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+@@ -91,6 +91,13 @@
+ 		gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
+ 	};
+ 
++	reg_1v8: regulator-1v8 {
++		compatible = "regulator-fixed";
++		regulator-name = "1V8";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++	};
++
+ 	reg_5v: regulator-5v {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "5V";
+@@ -119,6 +126,31 @@
+ 		gpio = <&gpio5 9 GPIO_ACTIVE_HIGH>;
+ 		enable-active-high;
+ 	};
++
++	sound {
++		compatible = "simple-audio-card";
++		simple-audio-card,name = "imx6ul-opos6ul-sgtl5000-audio";
++		simple-audio-card,widgets =
++			"Microphone", "Mic Jack",
++			"Line", "Line In",
++			"Line", "Line Out",
++			"Headphone", "Headphone Jack";
++		simple-audio-card,routing =
++			"MIC_IN", "Mic Jack",
++			"Mic Jack", "Mic Bias",
++			"Headphone Jack", "HP_OUT";
++
++		simple-audio-card,format = "i2s";
++		simple-audio-card,bitclock-master = <&codec_dai>;
++		simple-audio-card,frame-master = <&codec_dai>;
++		simple-audio-card,cpu {
++			sound-dai = <&sai2>;
++		};
++		codec_dai: simple-audio-card,codec {
++			sound-dai = <&sgtl5000>;
++			clocks = <&clks IMX6UL_CLK_SAI2>;
++		};
++	};
+ };
+ 
+ &adc1 {
+@@ -140,6 +172,11 @@
+ 	status = "okay";
+ };
+ 
++&clks {
++	assigned-clocks = <&clks IMX6UL_CLK_PLL4_AUDIO_DIV>;
++	assigned-clock-rates = <786432000>;
++};
++
+ &ecspi4 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_ecspi4>;
+@@ -164,6 +201,16 @@
+ 	pinctrl-0 = <&pinctrl_i2c1>;
+ 	clock_frequency = <400000>;
+ 	status = "okay";
++
++	sgtl5000: codec@0a {
++		compatible = "fsl,sgtl5000";
++		reg = <0x0a>;
++		#sound-dai-cells = <0>;
++		VDDD-supply = <&reg_1v8>;
++		VDDA-supply = <&reg_3v3>;
++		VDDIO-supply = <&reg_3v3>;
++		clocks = <&clks IMX6UL_CLK_SAI2>;
++	};
+ };
+ 
+ &i2c2 {
+@@ -224,6 +271,16 @@
+ 	status = "okay";
+ };
+ 
++&sai2 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_sai2>;
++	assigned-clocks = <&clks IMX6UL_CLK_SAI2_SEL>, <&clks IMX6UL_CLK_SAI2>;
++	assigned-clock-parents = <&clks IMX6UL_CLK_PLL4_AUDIO_DIV>;
++	assigned-clock-rates = <0>, <24576000>;
++	fsl,sai-mclk-direction-output;
++	status = "okay";
++};
++
+ &snvs_pwrkey {
+ 	status = "disabled";
+ };
+@@ -390,6 +447,16 @@
+ 		>;
+ 	};
+ 
++	pinctrl_sai2: sai2grp {
++		fsl,pins = <
++			MX6UL_PAD_JTAG_TMS__SAI2_MCLK           0x17088
++			MX6UL_PAD_JTAG_TDI__SAI2_TX_BCLK        0x17088
++			MX6UL_PAD_JTAG_TDO__SAI2_TX_SYNC        0x17088
++			MX6UL_PAD_JTAG_TRST_B__SAI2_TX_DATA     0x11088
++			MX6UL_PAD_JTAG_TCK__SAI2_RX_DATA        0x11088
++		>;
++	};
++
+ 	pinctrl_tsc: tscgrp {
+ 		fsl,pins = <
+ 			MX6UL_PAD_GPIO1_IO01__GPIO1_IO01       0xb0

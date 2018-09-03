@@ -1,0 +1,46 @@
+From 91c46d1c2431d62c6717a3432a19ffb6c3a473a7 Mon Sep 17 00:00:00 2001
+From: Julien BOIBESSOT <julien.boibessot@armadeus.com>
+Date: Fri, 17 Aug 2018 14:57:46 +0000
+Subject: [PATCH] Signed-off-by: Julien BOIBESSOT
+ <julien.boibessot@armadeus.com>
+
+---
+ arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+index 04a111e..d528501 100644
+--- a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
++++ b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+@@ -185,7 +185,7 @@
+ 		bus-width = <18>;
+ 
+ 		display-timings {
+-			timing0: timing0 {
++			ST0700 {
+ 				clock-frequency = <33000033>;
+ 				hactive = <800>;
+ 				vactive = <480>;
+@@ -198,6 +198,22 @@
+ 				de-active = <1>;
+ 				pixelclk-active = <1>;
+ 			};
++
++			LQ043 {
++				clock-frequency = <8690000>;
++				hactive = <480>;
++				vactive = <272>;
++				hback-porch = <16>;
++				hfront-porch = <16>;
++				vback-porch = <4>;
++				vfront-porch = <2>;
++				hsync-len = <4>;
++				vsync-len = <4>;
++				hsync-active = <0>;
++				vsync-active = <0>;
++				de-active = <0>;
++				pixelclk-active = <1>;
++			};
+ 		};
+ 	};
+ };

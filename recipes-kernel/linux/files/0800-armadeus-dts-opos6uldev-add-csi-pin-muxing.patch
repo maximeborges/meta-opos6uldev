@@ -1,0 +1,38 @@
+From e7e935090d919bd7d1bbfe57590f1d4338f918cf Mon Sep 17 00:00:00 2001
+From: Julien BOIBESSOT <julien.boibessot@armadeus.com>
+Date: Fri, 17 Aug 2018 14:57:41 +0000
+Subject: [PATCH] Signed-off-by: Julien BOIBESSOT
+ <julien.boibessot@armadeus.com>
+
+---
+ arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+index e4c3cc8..04a111e 100644
+--- a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
++++ b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+@@ -253,6 +253,23 @@
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_gpios>;
+ 
++	pinctrl_csi1: csi1grp {
++		fsl,pins = <
++			MX6UL_PAD_CSI_MCLK__CSI_MCLK		0x1b088
++			MX6UL_PAD_CSI_PIXCLK__CSI_PIXCLK	0x1b088
++			MX6UL_PAD_CSI_VSYNC__CSI_VSYNC		0x1b088
++			MX6UL_PAD_CSI_HSYNC__CSI_HSYNC		0x1b088
++			MX6UL_PAD_CSI_DATA00__CSI_DATA02	0x1b088
++			MX6UL_PAD_CSI_DATA01__CSI_DATA03	0x1b088
++			MX6UL_PAD_CSI_DATA02__CSI_DATA04	0x1b088
++			MX6UL_PAD_CSI_DATA03__CSI_DATA05	0x1b088
++			MX6UL_PAD_CSI_DATA04__CSI_DATA06	0x1b088
++			MX6UL_PAD_CSI_DATA05__CSI_DATA07	0x1b088
++			MX6UL_PAD_CSI_DATA06__CSI_DATA08	0x1b088
++			MX6UL_PAD_CSI_DATA07__CSI_DATA09	0x1b088
++		>;
++	};
++
+ 	pinctrl_ecspi4: ecspi4grp {
+ 		fsl,pins = <
+ 			MX6UL_PAD_NAND_DATA04__ECSPI4_SCLK	0x1b0b0

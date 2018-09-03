@@ -1,0 +1,28 @@
+From 2cb219e644c084b50d224b70da1156ac4dc96e37 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9bastien=20Szymanski?=
+ <sebastien.szymanski@armadeus.com>
+Date: Thu, 19 Apr 2018 15:59:07 +0200
+Subject: [PATCH] ARM: dts: opos6uldev: fix pixel clk polarity
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
+
+---
+ arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+index 0b79a24..e4c3cc8 100644
+--- a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
++++ b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+@@ -196,7 +196,7 @@
+ 				hsync-len = <64>;
+ 				vsync-len = <4>;
+ 				de-active = <1>;
+-				pixelclk-active = <0>;
++				pixelclk-active = <1>;
+ 			};
+ 		};
+ 	};

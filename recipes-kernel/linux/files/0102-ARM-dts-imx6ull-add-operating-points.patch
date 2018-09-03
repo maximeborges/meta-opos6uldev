@@ -1,0 +1,49 @@
+From 75b758ae34875cb8bb1d865f9b34ab6c22dd9329 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9bastien=20Szymanski?=
+ <sebastien.szymanski@armadeus.com>
+Date: Wed, 18 Apr 2018 16:02:39 +0200
+Subject: [PATCH] ARM: dts: imx6ull: add operating points
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+i.MX6ULL has different operating ranges than i.MX6UL so add the
+operating points for the i.MX6ULL. A 25mV offset is added to the minimum
+allowed values like for the i.MX6UL.
+
+Signed-off-by: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
+
+---
+ arch/arm/boot/dts/imx6ull.dtsi | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx6ull.dtsi b/arch/arm/boot/dts/imx6ull.dtsi
+index 571ddd7..530d552 100644
+--- a/arch/arm/boot/dts/imx6ull.dtsi
++++ b/arch/arm/boot/dts/imx6ull.dtsi
+@@ -46,6 +46,25 @@
+ /* Delete UART8 in AIPS-1 (i.MX6UL specific) */
+ /delete-node/ &uart8;
+ 
++&cpu0 {
++	operating-points = <
++		/* kHz	uV */
++		900000	1275000
++		792000	1225000
++		528000	1175000
++		396000	1025000
++		198000	950000
++	>;
++	fsl,soc-operating-points = <
++		/* KHz	uV */
++		900000	1175000
++		792000	1175000
++		528000	1175000
++		396000	1175000
++		198000	1175000
++	>;
++};
++
+ / {
+ 	soc {
+ 		aips3: aips-bus@2200000 {
