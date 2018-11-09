@@ -1,0 +1,82 @@
+From 9591168fbb97118e20ec0051194975bd295dab23 Mon Sep 17 00:00:00 2001
+From: Maxime Borges <maxime.borges@strataggem.com>
+Date: Fri, 9 Nov 2018 21:36:39 +0000
+Subject: [PATCH] Change spidev names
+
+---
+ arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+index aaeeb87..eab2fa6 100644
+--- a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
++++ b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+@@ -146,25 +146,25 @@
+ 	cs-gpios =  <0>, <0>, <0>, <0>;
+ 	status = "okay";
+ 
+-	spidev0: spi@0 {
++	spidev0_0: spi@0 {
+ 		compatible = "spidev";
+ 		reg = <0>;
+ 		spi-max-frequency = <5000000>;
+ 	};
+ 
+-	spidev1: spi@1 {
++	spidev0_1: spi@1 {
+ 		compatible = "spidev";
+ 		reg = <1>;
+ 		spi-max-frequency = <5000000>;
+ 	};
+ 
+-	spidev2: spi@2 {
++	spidev0_2: spi@2 {
+ 		compatible = "spidev";
+ 		reg = <2>;
+ 		spi-max-frequency = <5000000>;
+ 	};
+ 
+-	spidev3: spi@3 {
++	spidev0_3: spi@3 {
+ 		compatible = "spidev";
+ 		reg = <3>;
+ 		spi-max-frequency = <5000000>;
+@@ -179,19 +179,19 @@
+ 	cs-gpios =  <0>, <&gpio3 2 GPIO_ACTIVE_LOW>, <&gpio3 3 GPIO_ACTIVE_LOW>;
+ 	status = "okay";
+ 
+-	spidev0: spi@0 {
++	spidev1_0: spi@0 {
+ 		compatible = "spidev";
+ 		reg = <0>;
+ 		spi-max-frequency = <5000000>;
+ 	};
+ 
+-	spidev1: spi@1 {
++	spidev1_1: spi@1 {
+ 		compatible = "spidev";
+ 		reg = <1>;
+ 		spi-max-frequency = <5000000>;
+ 	};
+ 
+-	spidev2: spi@2 {
++	spidev1_2: spi@2 {
+ 		compatible = "spidev";
+ 		reg = <2>;
+ 		spi-max-frequency = <5000000>;
+@@ -205,13 +205,13 @@
+ 	cs-gpios = <&gpio4 9 GPIO_ACTIVE_LOW>, <&gpio4 3 GPIO_ACTIVE_LOW>;
+ 	status = "okay";
+ 
+-	spidev0: spi@0 {
++	spidev3_0: spi@0 {
+ 		compatible = "spidev";
+ 		reg = <0>;
+ 		spi-max-frequency = <5000000>;
+ 	};
+ 
+-	spidev1: spi@1 {
++	spidev3_1: spi@1 {
+ 		compatible = "spidev";
+ 		reg = <1>;
+ 		spi-max-frequency = <5000000>;
