@@ -1,0 +1,25 @@
+From b4e1805c212b8672954b357eaf41c86c21d0bbcb Mon Sep 17 00:00:00 2001
+From: Maxime Borges <maxime.borges@strataggem.com>
+Date: Thu, 1 Nov 2018 15:06:33 +0000
+Subject: [PATCH] Add cpu_type to differentiate imx6ul and ull
+
+---
+ arch/arm/mach-imx/mx6/opos6ul.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/arch/arm/mach-imx/mx6/opos6ul.c b/arch/arm/mach-imx/mx6/opos6ul.c
+index 452f5e1..14ae7ee 100644
+--- a/arch/arm/mach-imx/mx6/opos6ul.c
++++ b/arch/arm/mach-imx/mx6/opos6ul.c
+@@ -136,6 +136,11 @@ int board_late_init(void)
+ 		env_set("preboot", "");
+ 	}
+ 
++	if (is_mx6ull())
++		env_set("cpu_type", "imx6ull");
++	else
++		env_set("cpu_type", "imx6ul");
++
+ 	return opos6ul_board_late_init();
+ }
+ 
