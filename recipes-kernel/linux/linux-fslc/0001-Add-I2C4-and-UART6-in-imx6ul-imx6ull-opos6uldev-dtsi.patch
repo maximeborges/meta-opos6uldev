@@ -1,0 +1,68 @@
+From 29ebd4bafa465246e313fbdd6920bcbae484c15d Mon Sep 17 00:00:00 2001
+From: Maxime Borges <maxime.borges@strataggem.com>
+Date: Thu, 1 Nov 2018 16:32:48 +0000
+Subject: [PATCH] Add I2C4 and UART6 in imx6ul-imx6ull-opos6uldev dtsi
+
+---
+ arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi | 27 ++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+index d528501..7d9dca9 100644
+--- a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
++++ b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+@@ -173,6 +173,13 @@
+ 	status = "okay";
+ };
+ 
++&i2c4 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_i2c4>;
++	 clock_frequency = <400000>;
++	status = "okay";
++};
++
+ &lcdif {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_lcdif>;
+@@ -249,6 +256,12 @@
+ 	status = "okay";
+ };
+ 
++&uart6 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_uart6>;
++	status = "okay";
++};
++
+ &usbotg1 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_usbotg1_id>;
+@@ -351,6 +364,13 @@
+ 		>;
+ 	};
+ 
++	pinctrl_i2c4: i2c4grp {
++		fsl,pins = <
++			MX6UL_PAD_LCD_DATA02__I2C4_SDA	0x4001b8b0
++			MX6UL_PAD_LCD_DATA03__I2C4_SCL	0x4001b8b0
++		>;
++	};
++
+ 	pinctrl_lcdif: lcdifgrp {
+ 		fsl,pins = <
+ 			MX6UL_PAD_LCD_CLK__LCDIF_CLK	    0x100b1
+@@ -413,6 +433,13 @@
+ 		>;
+ 	};
+ 
++	pinctrl_uart6: uart6grp {
++		fsl,pins = <
++			MX6UL_PAD_CSI_PIXCLK__UART6_DTE_TX  0x1b0b1
++			MX6UL_PAD_CSI_PIXCLK__UART6_DCE_RX  0x1b0b1
++		>;
++	};
++
+ 	pinctrl_usbotg1_id: usbotg1idgrp {
+ 		fsl,pins = <
+ 			MX6UL_PAD_GPIO1_IO00__ANATOP_OTG1_ID	0x1b0b0
