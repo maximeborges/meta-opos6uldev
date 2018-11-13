@@ -16,36 +16,6 @@ index aaeeb87..eab2fa6 100644
  	status = "okay";
  
 -	spidev0: spi@0 {
-+	spidev0_0: spi@0 {
- 		compatible = "spidev";
- 		reg = <0>;
- 		spi-max-frequency = <5000000>;
- 	};
- 
--	spidev1: spi@1 {
-+	spidev0_1: spi@1 {
- 		compatible = "spidev";
- 		reg = <1>;
- 		spi-max-frequency = <5000000>;
- 	};
- 
--	spidev2: spi@2 {
-+	spidev0_2: spi@2 {
- 		compatible = "spidev";
- 		reg = <2>;
- 		spi-max-frequency = <5000000>;
- 	};
- 
--	spidev3: spi@3 {
-+	spidev0_3: spi@3 {
- 		compatible = "spidev";
- 		reg = <3>;
- 		spi-max-frequency = <5000000>;
-@@ -179,19 +179,19 @@
- 	cs-gpios =  <0>, <&gpio3 2 GPIO_ACTIVE_LOW>, <&gpio3 3 GPIO_ACTIVE_LOW>;
- 	status = "okay";
- 
--	spidev0: spi@0 {
 +	spidev1_0: spi@0 {
  		compatible = "spidev";
  		reg = <0>;
@@ -61,6 +31,36 @@ index aaeeb87..eab2fa6 100644
  
 -	spidev2: spi@2 {
 +	spidev1_2: spi@2 {
+ 		compatible = "spidev";
+ 		reg = <2>;
+ 		spi-max-frequency = <5000000>;
+ 	};
+ 
+-	spidev3: spi@3 {
++	spidev1_3: spi@3 {
+ 		compatible = "spidev";
+ 		reg = <3>;
+ 		spi-max-frequency = <5000000>;
+@@ -179,19 +179,19 @@
+ 	cs-gpios =  <0>, <&gpio3 2 GPIO_ACTIVE_LOW>, <&gpio3 3 GPIO_ACTIVE_LOW>;
+ 	status = "okay";
+ 
+-	spidev0: spi@0 {
++	spidev2_0: spi@0 {
+ 		compatible = "spidev";
+ 		reg = <0>;
+ 		spi-max-frequency = <5000000>;
+ 	};
+ 
+-	spidev1: spi@1 {
++	spidev2_1: spi@1 {
+ 		compatible = "spidev";
+ 		reg = <1>;
+ 		spi-max-frequency = <5000000>;
+ 	};
+ 
+-	spidev2: spi@2 {
++	spidev2_2: spi@2 {
  		compatible = "spidev";
  		reg = <2>;
  		spi-max-frequency = <5000000>;

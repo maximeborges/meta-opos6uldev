@@ -1,0 +1,68 @@
+From a7a214dfa394d6a131d46f9ff66b20e50902c666 Mon Sep 17 00:00:00 2001
+From: Maxime Borges <maxime.borges@strataggem.com>
+Date: Tue, 13 Nov 2018 10:12:53 +0000
+Subject: [PATCH] Fix SPI chip select pin definitions with native pin
+ definitions for SPI. For SPI1 (SS1, SS2, SS3), SPI2 (SS1,SS2) and SPI4
+ (SS0,SS1)
+
+---
+ arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+index eab2fa6..0c860c9 100644
+--- a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
++++ b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+@@ -176,7 +176,7 @@
+ &ecspi2 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_ecspi2>;
+-	cs-gpios =  <0>, <&gpio3 2 GPIO_ACTIVE_LOW>, <&gpio3 3 GPIO_ACTIVE_LOW>;
++	cs-gpios =  <0>, <0>, <0>;
+ 	status = "okay";
+ 
+ 	spidev2_0: spi@0 {
+@@ -202,7 +202,7 @@
+ &ecspi4 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_ecspi4>;
+-	cs-gpios = <&gpio4 9 GPIO_ACTIVE_LOW>, <&gpio4 3 GPIO_ACTIVE_LOW>;
++	cs-gpios = <0>, <0>;
+ 	status = "okay";
+ 
+ 	spidev3_0: spi@0 {
+@@ -309,9 +309,9 @@
+ 			MX6UL_PAD_CSI_DATA06__ECSPI1_MOSI	0x1b0b0
+ 			MX6UL_PAD_CSI_DATA07__ECSPI1_MISO	0x1b0b0
+ 			MX6UL_PAD_CSI_DATA05__ECSPI1_SS0	0x1b0b0 /* SS0 */
+-			MX6UL_PAD_LCD_DATA05__GPIO3_IO10    0x1b0b0 /* SS1 */
+-			MX6UL_PAD_LCD_DATA06__GPIO3_IO11    0x1b0b0 /* SS2 */
+-			MX6UL_PAD_LCD_DATA07__GPIO3_IO12    0x1b0b0 /* SS3 */
++			MX6UL_PAD_LCD_DATA05__ECSPI1_SS1        0x1b0b0 /* SS1 */
++			MX6UL_PAD_LCD_DATA06__ECSPI1_SS2        0x1b0b0 /* SS2 */
++			MX6UL_PAD_LCD_DATA07__ECSPI1_SS3        0x1b0b0 /* SS3 */
+ 		>;
+ 	};
+ 
+@@ -321,8 +321,8 @@
+ 			MX6UL_PAD_CSI_DATA02__ECSPI2_MOSI	0x1b0b0
+ 			MX6UL_PAD_CSI_DATA03__ECSPI2_MISO	0x1b0b0
+ 			MX6UL_PAD_CSI_DATA01__ECSPI2_SS0	0x1b0b0 /* SS0 */
+-			MX6UL_PAD_LCD_HSYNC__GPIO3_IO02	    0x1b0b0 /* SS1 */
+-			MX6UL_PAD_LCD_VSYNC__GPIO3_IO03     0x1b0b0 /* SS2 */
++			MX6UL_PAD_LCD_HSYNC__ECSPI2_SS1	        0x1b0b0 /* SS1 */
++			MX6UL_PAD_LCD_VSYNC__ECSPI2_SS2         0x1b0b0 /* SS2 */
+ 		>;
+ 	};
+ 
+@@ -331,8 +331,8 @@
+ 			MX6UL_PAD_NAND_DATA04__ECSPI4_SCLK	0x1b0b0
+ 			MX6UL_PAD_NAND_DATA05__ECSPI4_MOSI	0x1b0b0
+ 			MX6UL_PAD_NAND_DATA06__ECSPI4_MISO	0x1b0b0
+-			MX6UL_PAD_NAND_DATA07__GPIO4_IO09	0x1b0b0 /* SS0 */
+-			MX6UL_PAD_NAND_DATA01__GPIO4_IO03	0x1b0b0 /* SS1 */
++			MX6UL_PAD_NAND_DATA07__ECSPI4_SS0	0x1b0b0 /* SS0 */
++			MX6UL_PAD_NAND_DATA01__ECSPI4_SS1	0x1b0b0 /* SS1 */
+ 		>;
+ 	};
+ 
