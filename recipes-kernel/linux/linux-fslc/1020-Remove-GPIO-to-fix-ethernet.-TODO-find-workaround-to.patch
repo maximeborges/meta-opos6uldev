@@ -1,0 +1,201 @@
+From 37decd668804ae535f07bda18199f695a1934ce3 Mon Sep 17 00:00:00 2001
+From: Maxime Borges <maxime.borges@strataggem.com>
+Date: Mon, 19 Nov 2018 12:10:04 +0000
+Subject: [PATCH] Remove GPIO to fix ethernet. TODO: find workaround to use
+ both GPIO and ethernet
+
+---
+ arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi | 139 ++++++++++++-----------
+ 1 file changed, 72 insertions(+), 67 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+index 8e7f125..783e583 100644
+--- a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
++++ b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+@@ -283,7 +283,9 @@
+ 	status = "okay";
+ };
+ 
+-
++&snvs_pwrkey {
++	status = "disabled";
++};
+ 
+ &usbotg1 {
+ 	pinctrl-names = "default";
+@@ -305,15 +307,76 @@
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_gpios>;
+ 
++	/* Pin number: ((GPIO number - 1) x 32) + pin number */
++	/*TODO add those gpios, for the moment they make the ethernet fail */
++	/* MX6UL_PAD_GPIO1_IO06__GPIO1_IO06	0x0b0b0 */ /* XLBee1_Dio7 */
++	/* MX6UL_PAD_GPIO1_IO07__GPIO1_IO07	0x0b0b0 */ /* IO Expander !INT */
++
++	pinctrl_gpios: gpiosgrp {
++		fsl,pins = <
++			MX6UL_PAD_UART2_CTS_B__GPIO1_IO22	0x0b0b0 /* XLBee2_Dio10 */
++			MX6UL_PAD_UART2_RTS_B__GPIO1_IO23	0x0b0b0 /* XLBee1_Dio0 */
++			MX6UL_PAD_ENET2_TX_DATA0__GPIO2_IO11	0x0b0b0 /*  XLBee4_Dio9 */
++			MX6UL_PAD_NAND_WE_B__GPIO4_IO01	0x0b0b0 /* XLBee3_Dio6 */
++			MX6UL_PAD_NAND_RE_B__GPIO4_IO00	0x0b0b0 /* XLBee3_Dio5 */
++			MX6UL_PAD_NAND_DATA02__GPIO4_IO04	0x0b0b0 /* XLBee3_Dio9 */
++			MX6UL_PAD_NAND_ALE__GPIO4_IO10	0x0b0b0 /* XLBee3_Dio10 */
++			MX6UL_PAD_SNVS_TAMPER8__GPIO5_IO08	0x0b0b0 /* XLBee5_Dio0 */
++			MX6UL_PAD_SNVS_TAMPER7__GPIO5_IO07	0x0b0b0 /* XLBee5_Dio6 */
++			MX6UL_PAD_SNVS_TAMPER6__GPIO5_IO06	0x0b0b0 /* XLBee5_Dio5 */
++			MX6UL_PAD_SNVS_TAMPER5__GPIO5_IO05	0x0b0b0 /* XLBee5_Dio9 */
++			MX6UL_PAD_SNVS_TAMPER4__GPIO5_IO04	0x0b0b0 /* XLBee5_Dio7 */
++			MX6UL_PAD_SNVS_TAMPER3__GPIO5_IO03	0x0b0b0 /* XLBee5_Dio8 */
++			MX6UL_PAD_SNVS_TAMPER2__GPIO5_IO02	0x0b0b0 /* XLBee5_Dio10 */
++			MX6UL_PAD_SNVS_TAMPER1__GPIO5_IO01	0x0b0b0 /* XLBee2_Dio0 */
++			MX6UL_PAD_SNVS_TAMPER0__GPIO5_IO00	0x0b0b0 /* PPS1 */
++			MX6UL_PAD_JTAG_TMS__GPIO1_IO11	0x0b0b0 /* XLBee2_Dio6 */
++			MX6UL_PAD_JTAG_TDO__GPIO1_IO12	0x0b0b0 /* XLBee2_Dio5 */
++			MX6UL_PAD_JTAG_TDI__GPIO1_IO13	0x0b0b0 /* XLBee2_Dio9 */
++			MX6UL_PAD_JTAG_TRST_B__GPIO1_IO15	0x0b0b0 /* XLBee2_Dio8 */
++			MX6UL_PAD_JTAG_TCK__GPIO1_IO14	0x0b0b0 /* XLBee2_Dio7 */
++			MX6UL_PAD_GPIO1_IO08__GPIO1_IO08	0x0b0b0 /* EVENT1 */
++			MX6UL_PAD_GPIO1_IO09__GPIO1_IO09	0x0b0b0 /* XLBee1_Dio6 */
++			MX6UL_PAD_UART1_RTS_B__GPIO1_IO19	0x0b0b0 /* XLBee1_Dio5 */
++			MX6UL_PAD_UART1_CTS_B__GPIO1_IO18	0x0b0b0 /* XLBee1_Dio9 */
++			MX6UL_PAD_GPIO1_IO01__GPIO1_IO01	0x0b0b0 /* RTC !INT */
++			MX6UL_PAD_GPIO1_IO04__GPIO1_IO04	0x0b0b0 /* RTC !IRQ */
++			MX6UL_PAD_LCD_DATA15__GPIO3_IO20	0x0b0b0 /* XLBee1_Dio8 */
++			MX6UL_PAD_LCD_DATA14__GPIO3_IO19	0x0b0b0 /* XLBee1_Dio10 */
++			MX6UL_PAD_LCD_DATA13__GPIO3_IO18	0x0b0b0 /* XLBee4_Dio0 */
++			MX6UL_PAD_LCD_DATA12__GPIO3_IO17	0x0b0b0 /* XLBee4_Dio6 */
++			MX6UL_PAD_LCD_DATA11__GPIO3_IO16	0x0b0b0 /* XLBee4_Dio5 */
++			MX6UL_PAD_LCD_DATA10__GPIO3_IO15	0x0b0b0 /* XLBee4_Dio7 */
++			MX6UL_PAD_LCD_DATA09__GPIO3_IO14	0x0b0b0 /* XLBee4_Dio8 */
++			MX6UL_PAD_LCD_DATA08__GPIO3_IO13	0x0b0b0 /* XLBee4_Dio10 */
++			MX6UL_PAD_LCD_DATA04__GPIO3_IO09	0x0b0b0 /* XLBee3_Dio0 */
++			MX6UL_PAD_LCD_CLK__GPIO3_IO00	0x0b0b0 /* XLBee3_Dio08 */
++		>;
++	};
++
++	pinctrl_pwm3: pwm3grp {
++		fsl,pins = <
++			MX6UL_PAD_NAND_ALE__PWM3_OUT	0x1b0b0
++		>;
++	};
++
++
++	pinctrl_gpio_keys: gpiokeysgrp {
++		fsl,pins = <
++			MX6UL_PAD_LCD_ENABLE__GPIO3_IO01	0x0b0b0
++		>;
++	};
++
++
+ 	pinctrl_ecspi1: ecspi1grp {
+ 		fsl,pins = <
+ 			MX6UL_PAD_CSI_DATA04__ECSPI1_SCLK	0x1b0b0
+ 			MX6UL_PAD_CSI_DATA06__ECSPI1_MOSI	0x1b0b0
+ 			MX6UL_PAD_CSI_DATA07__ECSPI1_MISO	0x1b0b0
+ 			MX6UL_PAD_CSI_DATA05__GPIO4_IO26	0x1b0b0 /* SS0 */
+-			MX6UL_PAD_LCD_DATA05__GPIO3_IO10    0x1b0b0 /* SS1 */
+-			MX6UL_PAD_LCD_DATA06__GPIO3_IO11    0x1b0b0 /* SS2 */
+-			MX6UL_PAD_LCD_DATA07__GPIO3_IO12    0x1b0b0 /* SS3 */
++			MX6UL_PAD_LCD_DATA05__GPIO3_IO10	0x1b0b0 /* SS1 */
++			MX6UL_PAD_LCD_DATA06__GPIO3_IO11	0x1b0b0 /* SS2 */
++			MX6UL_PAD_LCD_DATA07__GPIO3_IO12	0x1b0b0 /* SS3 */
+ 		>;
+ 	};
+ 
+@@ -323,8 +386,8 @@
+ 			MX6UL_PAD_CSI_DATA02__ECSPI2_MOSI	0x1b0b0
+ 			MX6UL_PAD_CSI_DATA03__ECSPI2_MISO	0x1b0b0
+ 			MX6UL_PAD_CSI_DATA01__GPIO4_IO22	0x1b0b0 /* SS0 */
+-			MX6UL_PAD_LCD_HSYNC__GPIO3_IO02	    0x1b0b0 /* SS1 */
+-			MX6UL_PAD_LCD_VSYNC__GPIO3_IO03     0x1b0b0 /* SS2 */
++			MX6UL_PAD_LCD_HSYNC__GPIO3_IO02	0x1b0b0 /* SS1 */
++			MX6UL_PAD_LCD_VSYNC__GPIO3_IO03	0x1b0b0 /* SS2 */
+ 		>;
+ 	};
+ 
+@@ -355,64 +418,6 @@
+ 	*/
+ 
+ 
+-	/* Pin number: ((GPIO number - 1) x 32) + pin number */
+-	pinctrl_gpios: gpiosgrp {
+-		fsl,pins = <
+-			MX6UL_PAD_UART2_CTS_B__GPIO1_IO22		0x0b0b0 /* XLBee2_Dio1 */
+-			MX6UL_PAD_UART2_RTS_B__GPIO1_IO23		0x0b0b0 /* XLBee1_DioO */
+-			MX6UL_PAD_GPIO1_IO06__GPIO1_IO06		0x0b0b0 /* XLBee1_Dio7 */
+-			MX6UL_PAD_GPIO1_IO07__GPIO1_IO07		0x0b0b0 /* IO Expander !INT */
+-			MX6UL_PAD_ENET2_TX_DATA0__GPIO2_IO11	0x0b0b0 /*  XLBEE4_DIO9 */
+-			MX6UL_PAD_NAND_WE_B__GPIO4_IO01			0x0b0b0 /* XLBEE3_DIO6 */
+-			MX6UL_PAD_NAND_RE_B__GPIO4_IO00			0x0b0b0 /* XLBEE3_DIO5 */
+-			MX6UL_PAD_NAND_DATA02__GPIO4_IO04		0x0b0b0 /* XLBEE3_DIO9 */
+-			MX6UL_PAD_NAND_ALE__GPIO4_IO10			0x0b0b0 /* XLBEE3_DIO10 */
+-			MX6UL_PAD_SNVS_TAMPER8__GPIO5_IO08		0x0b0b0 /* XLBEE5_DIO0 */
+-			MX6UL_PAD_SNVS_TAMPER7__GPIO5_IO07		0x0b0b0 /* XLBEE5_DIO6 */
+-			MX6UL_PAD_SNVS_TAMPER6__GPIO5_IO06		0x0b0b0 /* XLBEE5_DIO5 */
+-			MX6UL_PAD_SNVS_TAMPER5__GPIO5_IO05		0x0b0b0 /* XLBEE5_DIO9 */
+-			MX6UL_PAD_SNVS_TAMPER4__GPIO5_IO04		0x0b0b0 /* XLBEE5_DIO7 */
+-			MX6UL_PAD_SNVS_TAMPER3__GPIO5_IO03		0x0b0b0 /* XLBEE5_DIO8 */
+-			MX6UL_PAD_SNVS_TAMPER2__GPIO5_IO02		0x0b0b0 /* XLBEE5_DIO10 */
+-			MX6UL_PAD_SNVS_TAMPER1__GPIO5_IO01		0x0b0b0 /* XLBEE2_DIO0 */
+-			MX6UL_PAD_SNVS_TAMPER0__GPIO5_IO00		0x0b0b0 /* PPS1 */			
+-			MX6UL_PAD_JTAG_TMS__GPIO1_IO11			0x0b0b0 /* XLBEE2_DIO6 */
+-			MX6UL_PAD_JTAG_TDO__GPIO1_IO12			0x0b0b0 /* XLBEE2_DIO5 */
+-			MX6UL_PAD_JTAG_TDI__GPIO1_IO13			0x0b0b0 /* XLBEE2_DIO9 */
+-			MX6UL_PAD_JTAG_TRST_B__GPIO1_IO15		0x0b0b0 /* XLBEE2_DIO8 */
+-			MX6UL_PAD_JTAG_TCK__GPIO1_IO14			0x0b0b0 /* XLBEE2_DIO7 */
+-			MX6UL_PAD_GPIO1_IO08__GPIO1_IO08		0x0b0b0 /* EVENT1 */
+-			MX6UL_PAD_GPIO1_IO09__GPIO1_IO09		0x0b0b0 /* XLBEE1_DIO6 */
+-			MX6UL_PAD_UART1_RTS_B__GPIO1_IO19		0x0b0b0 /* XLBEE1_DIO5 */
+-			MX6UL_PAD_UART1_CTS_B__GPIO1_IO18		0x0b0b0 /* XLBEE1_DIO9 */
+-			MX6UL_PAD_GPIO1_IO01__GPIO1_IO01		0x0b0b0 /* RTC !INT */
+-			MX6UL_PAD_GPIO1_IO04__GPIO1_IO04		0x0b0b0 /* RTC !IRQ */
+-			MX6UL_PAD_LCD_DATA15__GPIO3_IO20		0x0b0b0 /* XLBEE1_DIO8 */
+-			MX6UL_PAD_LCD_DATA14__GPIO3_IO19		0x0b0b0 /* XLBEE1_DIO10 */
+-			MX6UL_PAD_LCD_DATA13__GPIO3_IO18		0x0b0b0 /* XLBEE4_DIO0 */
+-			MX6UL_PAD_LCD_DATA12__GPIO3_IO17		0x0b0b0 /* XLBEE4_DIO6 */
+-			MX6UL_PAD_LCD_DATA11__GPIO3_IO16		0x0b0b0 /* XLBEE4_DIO5 */
+-			MX6UL_PAD_LCD_DATA10__GPIO3_IO15		0x0b0b0 /* XLBEE4_DIO7 */
+-			MX6UL_PAD_LCD_DATA09__GPIO3_IO14		0x0b0b0 /* XLBEE4_DIO8 */
+-			MX6UL_PAD_LCD_DATA08__GPIO3_IO13		0x0b0b0 /* XLBEE4_DIO10 */
+-			MX6UL_PAD_LCD_DATA04__GPIO3_IO09		0x0b0b0 /* XLBEE3_DIO0 */
+-			MX6UL_PAD_LCD_CLK__GPIO3_IO00			0x0b0b0 /* XLBEE3_DIO08 */
+-		>;
+-	};
+-
+-	pinctrl_pwm3: pwm3grp {
+-		fsl,pins = <
+-			MX6UL_PAD_NAND_ALE__PWM3_OUT		0x1b0b0
+-		>;
+-	};
+-
+-
+-	pinctrl_gpio_keys: gpiokeysgrp {
+-		fsl,pins = <
+-			MX6UL_PAD_LCD_ENABLE__GPIO3_IO01	0x0b0b0
+-		>;
+-	};
+-
+ 	pinctrl_i2c1: i2c1grp {
+ 		fsl,pins = <
+ 			MX6UL_PAD_GPIO1_IO03__I2C1_SDA	0x4001b8b0
+@@ -460,7 +465,7 @@
+ 
+ 	pinctrl_uart3: uart3grp {
+ 		fsl,pins = <
+-		    MX6UL_PAD_UART3_TX_DATA__UART3_DCE_TX	0x1b0b1
++			MX6UL_PAD_UART3_TX_DATA__UART3_DCE_TX	0x1b0b1
+ 			MX6UL_PAD_UART3_RX_DATA__UART3_DCE_RX	0x1b0b1
+ 		>;
+ 	};
+@@ -488,8 +493,8 @@
+ 
+ 	pinctrl_uart7: uart7grp {
+ 		fsl,pins = <
+-			MX6UL_PAD_LCD_DATA16__UART7_DCE_TX  0x1b0b1
+-		    MX6UL_PAD_LCD_DATA17__UART7_DCE_RX	0x1b0b1
++			MX6UL_PAD_LCD_DATA16__UART7_DCE_TX	0x1b0b1
++			MX6UL_PAD_LCD_DATA17__UART7_DCE_RX	0x1b0b1
+ 		>;
+ 	};
+ 

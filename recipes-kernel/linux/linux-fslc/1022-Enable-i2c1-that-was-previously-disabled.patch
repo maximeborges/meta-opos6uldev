@@ -1,0 +1,22 @@
+From 515dc56f4f0ee2a3d8a52c39282056bc6c61b78b Mon Sep 17 00:00:00 2001
+From: Maxime Borges <maxime.borges@strataggem.com>
+Date: Mon, 19 Nov 2018 17:38:00 +0000
+Subject: [PATCH] Enable i2c1 that was previously disabled
+
+---
+ arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+index e1e1190..b29daaa 100644
+--- a/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
++++ b/arch/arm/boot/dts/imx6ul-imx6ull-opos6uldev.dtsi
+@@ -205,7 +205,7 @@
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_i2c1>;
+ 	clock_frequency = <400000>;
+-	status = "disabled";
++	status = "okay";
+ };
+ 
+ &i2c2 {
